@@ -1,15 +1,184 @@
-function createElement(tag, attrs = {}, children = []){
-
+/**
+ * Creates a virtual DOM node
+ * @param {string} tag - HTML tag name
+ * @param {Object} attrs - Element attributes
+ * @param {Array} children - Child elements
+ * @returns {Object} Virtual DOM node
+ */
+function createElement(tag, attrs = {}, children = []) {
+    return {
+        tag,
+        attrs,
+        children: children.flat().map(child =>
+            typeof child === 'string' || typeof child === 'number'
+                ? { tag: 'text', attrs: {}, text: String(child) }
+                : child
+        )
+    };
 }
 
+/**
+ * Applies attributes to a DOM element
+ * @param {HTMLElement} element - The DOM element
+ * @param {Object} attrs - Attributes to apply
+ */
 function applyAttributes(element, attrs) {
+    if (!element || !(element instanceof Element)) {
+        console.error('Invalid DOM element for attributes:', element);
+        return;
+    }
 
+    if (!attrs || typeof attrs !== 'object') {
+        console.warn('Invalid attributes object:', attrs);
+        return;
+    }
+
+    try {
+        for (const [key, value] of Object.entries(attrs)) {
+            if (key.startsWith('on')) {
+                // Handle events
+                const eventName = key.slice(2).toLowerCase();
+                element.addEventListener(eventName, value);
+            } else if (key === 'className') {
+                // Special case for class
+                element.setAttribute('class', value);
+            } else if (typeof value === 'boolean') {
+                // Handle boolean attributes
+                if (value) {
+                    element.setAttribute(key, '');
+                } else {
+                    element.removeAttribute(key);
+                }
+            } else if (value !== null && value !== undefined) {
+                // Handle regular attributes
+                element.setAttribute(key, String(value));
+            }
+        }
+    } catch (error) {
+        console.error('Error applying attributes:', error);
+    }
 }
 
-function createDomElement(vnode){}
+/**
+ * Creates a real DOM element from a virtual node
+ * @param {Object} vnode - Virtual DOM node
+ * @returns {HTMLElement} Real DOM element
+ */
+function createDomElement(vnode) {
+    // Handle null, undefined, or invalid vnodes
+    if (!vnode || typeof vnode !== 'object') {
+        console.warn('Invalid vnode received:', vnode);
+        return document.createTextNode('');
+    }
 
-function mount(vnode, parentDomElement){
+    // Ensure vnode has required properties
+    if (!('tag' in vnode)) {
+        console.error('Missing tag in vnode:', vnode);
+        return document.createTextNode('');
+    }
 
+    if (vnode.tag === 'text') {
+        return document.createTextNode(vnode.text || '');
+    }
+
+    if (typeof vnode.tag !== 'string') {
+        console.error('Invalid vnode tag type:', typeof vnode.tag);
+        return document.createTextNode('');
+    }
+    
+    try {
+        const element = document.createElement(vnode.tag);
+        applyAttributes(element, vnode.attrs || {});
+        
+        const children = Array.isArray(vnode.children) ? vnode.children : [];
+        for (const child of children) {
+            if (child !== null && child !== undefined) {
+                mount(child, element);
+            }
+        }
+        
+        return element;
+    } catch (error) {
+        console.error('Error creating DOM element:', error);
+        return document.createTextNode('');
+    }
 }
 
-function patch(oldVnode, newVnode) {}
+/**
+ * Mounts a virtual node to a parent DOM element
+ * @param {Object} vnode - Virtual DOM node
+ * @param {HTMLElement} parentDomElement - Parent DOM element
+ */
+function mount(vnode, parentDomElement) {
+    const domElement = createDomElement(vnode);
+    parentDomElement.appendChild(domElement);
+    return domElement;
+}
+
+/**
+ * Updates the DOM by comparing old and new virtual nodes
+ * @param {Object} oldVnode - Old virtual DOM node
+ * @param {Object} newVnode - New virtual DOM node
+ * @param {HTMLElement} parentDomElement - Parent DOM element
+ */
+function patch(oldVnode, newVnode, parentDomElement) {
+    if (!parentDomElement || !(parentDomElement instanceof Element)) {
+        console.error('Invalid parent element:', parentDomElement);
+        return;
+    }
+
+    try {
+        if (!oldVnode) {
+            // New node, just mount it
+            if (newVnode) {
+                mount(newVnode, parentDomElement);
+            }
+        } else if (!newVnode) {
+            // Node was removed, remove from DOM
+            parentDomElement.textContent = '';
+        } else if (oldVnode.tag !== newVnode.tag) {
+            // Different tags, replace completely
+            const domElement = createDomElement(newVnode);
+            if (parentDomElement.firstChild) {
+                parentDomElement.replaceChild(domElement, parentDomElement.firstChild);
+            } else {
+                parentDomElement.appendChild(domElement);
+            }
+        } else {
+            // Same tag, update attributes and children
+            const domElement = parentDomElement.firstChild;
+            if (!domElement) {
+                console.warn('No DOM element found to patch');
+                if (newVnode) {
+                    mount(newVnode, parentDomElement);
+                }
+                return;
+            }
+
+            if (domElement instanceof Element) {
+                applyAttributes(domElement, newVnode.attrs || {});
+            }
+            
+            // Ensure children arrays exist
+            const oldChildren = Array.isArray(oldVnode.children) ? oldVnode.children : [];
+            const newChildren = Array.isArray(newVnode.children) ? newVnode.children : [];
+            
+            // Update children
+            const maxLength = Math.max(oldChildren.length, newChildren.length);
+            for (let i = 0; i < maxLength; i++) {
+                if (domElement instanceof Element) {
+                    patch(
+                        oldChildren[i],
+                        newChildren[i],
+                        domElement
+                    );
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error during patch operation:', error);
+    }
+}
+
+// Export the functions
+export { createElement, mount, patch };

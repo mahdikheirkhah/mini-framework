@@ -1,0 +1,11 @@
+/* styles.css */
+body { font-family: Arial, sans-serif; }
+.todoapp { width: 300px; margin: 20px auto; }
+
+.destroy {
+background-color: blueviolet;
+}
+
+.new-todo {
+    width: 500 px
+}

@@ -38,11 +38,11 @@ class EventManager {
     }
 
     /**
-     * Emit an event
+     * Execute an event
      * @param {string} eventName - Name of the event
      * @param {*} data - Event data
      */
-    emit(eventName, data) {
+    execute(eventName, data) {
         const handlers = this.events.get(eventName);
         if (handlers) {
             for (const handler of handlers) {
@@ -65,7 +65,7 @@ class EventManager {
     }
 }
 
-// Create a global event bus
-const eventBus = new EventManager();
+// Create a global event manager
+const eventManager = new EventManager();
 
-export { EventManager, eventBus };
+export { EventManager, eventManager };

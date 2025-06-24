@@ -24,9 +24,9 @@ class Store {
      * @param {Object|Function} update - New state object or update function
      */
     setState(update) {
-        // const newState = typeof update === 'function' 
-        //     ? update(this.state)
-        //     : update;
+        const newState = typeof update === 'function' 
+            ? update(this.state)
+            : update;
 
         this.state = { ...this.state, ...newState };
         this.notify();

@@ -84,18 +84,18 @@ unsubscribe();
 The framework provides a custom event system for component communication:
 
 ```javascript
-import { eventBus } from './framework/app.js';
+import { eventManager } from './framework/app.js';
 
 // Subscribe to an event
-const unsubscribe = eventBus.on('userLoggedIn', (user) => {
+const unsubscribe = eventManager.on('userLoggedIn', (user) => {
     console.log('User logged in:', user);
 });
 
-// Emit an event
-eventBus.emit('userLoggedIn', { id: 1, name: 'John' });
+// Execute (emit) an event
+eventManager.execute('userLoggedIn', { id: 1, name: 'John' });
 
 // One-time event subscription
-eventBus.once('notification', (message) => {
+eventManager.once('notification', (message) => {
     console.log(message);
 });
 

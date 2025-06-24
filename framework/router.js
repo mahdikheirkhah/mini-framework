@@ -8,7 +8,7 @@ class Router {
         this.defaultHandler = () => {
             console.warn('No default route handler set');
         };
-        
+
         // Handle browser back/forward buttons
         window.addEventListener('popstate', () => {
             this.handleRoute(window.location.pathname);
@@ -41,10 +41,9 @@ class Router {
     /**
      * Navigate to a route
      * @param {string} path - URL path
-     * @param {Object} state - State to pass to history
      */
-    navigate(path, state = {}) {
-        window.history.pushState(state, '', path);
+    navigate(path) {
+        window.history.pushState({}, '', path); 
         this.handleRoute(path);
     }
 

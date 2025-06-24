@@ -27,7 +27,7 @@ class Store {
         const newState = typeof update === 'function' 
             ? update(this.state)
             : update;
-
+        console.log(newState)
         this.state = { ...this.state, ...newState };
         this.notify();
     }

@@ -148,7 +148,6 @@ function patch(oldVnode, newVnode, parentDomElement) {
             // Same tag, update attributes and children
             const domElement = parentDomElement.firstChild;
             if (!domElement) {
-                console.warn('No DOM element found to patch');
                 if (newVnode) {
                     mount(newVnode, parentDomElement);
                 }
@@ -163,15 +162,11 @@ function patch(oldVnode, newVnode, parentDomElement) {
             const oldChildren = Array.isArray(oldVnode.children) ? oldVnode.children : [];
             const newChildren = Array.isArray(newVnode.children) ? newVnode.children : [];
             
-            // Update children
-            const maxLength = Math.max(oldChildren.length, newChildren.length);
-            for (let i = 0; i < maxLength; i++) {
-                if (domElement instanceof Element) {
-                    patch(
-                        oldChildren[i],
-                        newChildren[i],
-                        domElement
-                    );
+            // For simplicity and reliability with dynamic lists, rebuild children
+            domElement.innerHTML = '';
+            for (const child of newChildren) {
+                if (child !== null && child !== undefined) {
+                    mount(child, domElement);
                 }
             }
         }

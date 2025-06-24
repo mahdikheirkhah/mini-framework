@@ -5,7 +5,7 @@ export function TodoInput() {
     function handleKeyDown(e) {
         if (e.key === 'Enter') {
             const value = e.target.value.trim();
-            if (value) {
+            if (value && value.length >= 2) {
                 const state = store.getState();
                 store.setState({
                     todos: [...state.todos, {
@@ -15,6 +15,8 @@ export function TodoInput() {
                     }]
                 });
                 e.target.value = '';
+                // Restore focus after state update
+                setTimeout(() => e.target.focus(), 0);
             }
         }
     }

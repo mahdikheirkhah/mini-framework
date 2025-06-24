@@ -39,6 +39,11 @@ function applyAttributes(element, attrs) {
                 // Handle events
                 const eventName = key.slice(2).toLowerCase();
                 element.addEventListener(eventName, value);
+            } else if (key === 'ref') {
+                // Handle refs
+                if (typeof value === 'function') {
+                    value(element);
+                }
             } else if (key === 'className') {
                 // Special case for class
                 element.setAttribute('class', value);

@@ -16,7 +16,11 @@ export function TodoInput() {
                 });
                 e.target.value = '';
                 // Restore focus after state update
-                setTimeout(() => e.target.focus(), 0);
+
+                setTimeout(() => {
+                    const input = document.querySelector('.new-todo')
+                    if (input) input.focus()
+                }, 0);
             }
         }
     }

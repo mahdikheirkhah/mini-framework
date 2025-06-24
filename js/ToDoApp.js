@@ -2,6 +2,7 @@ import { createElement, createApp, store } from '../framework/app.js';
 import { TodoList } from './components/TodoList.js';
 import { TodoInput } from './components/TodoInput.js';
 import { TodoFooter } from './components/TodoFooter.js';
+import { mount } from '../framework/dom.js';
 
 // Initialize store with todos array and filter
 store.setState({
@@ -9,6 +10,7 @@ store.setState({
     filter: 'all' // can be 'all', 'active', or 'completed'
 });
 
+const DOMBody = document.getElementById('body');
 
 // Create and mount sidebar content
 function Sidebar() {
@@ -62,27 +64,43 @@ function Sidebar() {
     ]);
 }
 
-const sidebar = createApp(Sidebar, document.getElementById('sidebar'));
+function Footer() {
 
-export { sidebar };
+// return the following DOM structure:
+//    
+// <footer class="info">
+//     <p>Double-click to edit a todo</p>
+//     <p>Created using custom framework</p>
+//     <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+// </footer>
 
+
+}
 
 // Main App component
 function App() {
     const state = store.getState();
-    
     return createElement('div', {}, [
-        createElement('header', { className: 'header' }, [
-            createElement('h1', {}, ['todos']),
-            TodoInput()
-        ]),
-        TodoList(),
-        state.todos.length > 0 ? TodoFooter() : null
-    ]);
+            createElement('header', { className: 'header' }, [
+                createElement('h1', {}, ['todos']),
+                TodoInput()
+            ]),
+            TodoList(),
+            state.todos.length > 0 ? TodoFooter() : null
+        ]);
 }
 
-// Create and mount the app
-const app = createApp(App, document.getElementById('app'));
+// Create and mount Sidebar to the <body>
+mount(Sidebar(), DOMBody);
 
+// Create app container <section id="app"> and mount it to the <body>
+mount(createElement('section', { className: 'todoapp', id: 'app' }, []), DOMBody);
+
+// Create and mount the app to the container
+const app = createApp(App, document.getElementById('app'));
 // Export app instance for potential external use
 export { app };
+
+// Create and mount Footer to the <body>
+mount(Footer(), DOMBody);
+

@@ -74,7 +74,12 @@ function Footer() {
 //     <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
 // </footer>
 
-
+ return createElement('footer', { className: 'info' }, [
+        createElement('p', {}, ['Double-click to edit a todo']),
+        createElement('p', {}, ['Created using custom framework']),
+        createElement('p', {}, ['Part of ',
+        createElement('a', { href: 'http://todomvc.com' }, ['TodoMVC'])]),
+])
 }
 
 // Main App component

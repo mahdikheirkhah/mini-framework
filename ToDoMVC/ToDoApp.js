@@ -78,7 +78,7 @@ function Sidebar() {
         createElement('a', {
             href: 'https://github.com/Inkasaa',
             target: '_blank'
-        }, ['Inkasaa'])
+        }, ['Inka Säävuori'])
     ]),
     createElement('li', {}, [
         createElement('a', {
@@ -90,7 +90,7 @@ function Sidebar() {
         createElement('a', {
             href: 'https://github.com/fatemekh78',
             target: '_blank'
-        }, ['fatemekh'])
+        }, ['Fatemeh Kheirkhah'])
     ]),
         createElement('footer', {}, [
             createElement('hr'),

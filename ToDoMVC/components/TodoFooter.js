@@ -1,4 +1,4 @@
-import { createElement } from '../../framework/app.js';
+import { createElement, router } from '../../framework/app.js';
 import { store } from '../../framework/app.js';
 
 export function TodoFooter() {
@@ -31,6 +31,7 @@ export function TodoFooter() {
                     onclick: (e) => {
                         e.preventDefault();
                         setFilter('all');
+                        router.navigate('/');
                     }
                 }, ['All'])
             ]),
@@ -41,6 +42,7 @@ export function TodoFooter() {
                     onclick: (e) => {
                         e.preventDefault();
                         setFilter('active');
+                        router.navigate('/active');
                     }
                 }, ['Active'])
             ]),
@@ -51,6 +53,7 @@ export function TodoFooter() {
                     onclick: (e) => {
                         e.preventDefault();
                         setFilter('completed');
+                        router.navigate('/completed');
                     }
                 }, ['Completed'])
             ])

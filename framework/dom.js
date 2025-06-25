@@ -1,3 +1,4 @@
+
 /**
  * Creates a virtual DOM node
  * @param {string} tag - HTML tag name
@@ -36,9 +37,7 @@ function applyAttributes(element, attrs) {
     try {
         for (const [key, value] of Object.entries(attrs)) {
             if (key.startsWith('on')) {
-                // Handle events
-                const eventName = key.slice(2).toLowerCase();
-                element.addEventListener(eventName, value);
+                element[key] = value;
             } else if (key === 'ref') {
                 // Handle refs
                 if (typeof value === 'function') {

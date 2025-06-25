@@ -1,7 +1,6 @@
 // Import and re-export all framework components
 import { createElement, mount, patch } from './dom.js';
 import { Store, store } from './state.js';
-import { EventManager, eventManager } from './events.js';
 import { Router, router } from './router.js';
 
 // Framework version
@@ -49,7 +48,6 @@ function createApp(rootComponent, container) {
     return {
         store,
         router,
-        eventManager,
         destroy: () => renderer.destroy()
     };
 }
@@ -59,8 +57,6 @@ export {
     createApp,
     Store,
     store,
-    EventManager,
-    eventManager,
     Router,
     router,
     VERSION

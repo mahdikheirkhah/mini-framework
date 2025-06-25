@@ -1,4 +1,19 @@
+
 # Mini-Framework Documentation
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Getting Started](#getting-started)
+  - [Basic Setup](#basic-setup)
+- [Core Features](#core-features)
+  - [1. Creating Elements](#1-creating-elements)
+  - [2. State Management](#2-state-management)
+  - [3. Routing](#3-routing)
+- [Building Components](#building-components)
+- [Why Things Work This Way](#why-things-work-this-way)
+- [Best Practices](#best-practices)
+- [Example TodoMVC Implementation](#example-todomvc-implementation)
 
 ## Overview
 
@@ -38,6 +53,7 @@ createElement(tag, attributes, children)
 ```
 
 Example:
+
 ```javascript
 // Create a button with a click handler
 createElement('button', {
@@ -79,31 +95,8 @@ const unsubscribe = store.subscribe(state => {
 unsubscribe();
 ```
 
-### 3. Event Handling
 
-The framework provides a custom event system for component communication:
-
-```javascript
-import { eventManager } from './framework/app.js';
-
-// Subscribe to an event
-const unsubscribe = eventManager.on('userLoggedIn', (user) => {
-    console.log('User logged in:', user);
-});
-
-// Execute (emit) an event
-eventManager.execute('userLoggedIn', { id: 1, name: 'John' });
-
-// One-time event subscription
-eventManager.once('notification', (message) => {
-    console.log(message);
-});
-
-// Unsubscribe from events
-unsubscribe();
-```
-
-### 4. Routing
+### 3. Routing
 
 The routing system helps manage navigation and URL states:
 

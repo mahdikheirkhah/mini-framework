@@ -1,4 +1,4 @@
-import { EventManager,eventManager } from "./events.js";
+
 /**
  * Creates a virtual DOM node
  * @param {string} tag - HTML tag name

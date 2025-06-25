@@ -18,46 +18,45 @@ function Sidebar() {
         createElement('header', {}, [
             createElement('h3', {}, ['Mini-framework']),
             createElement('span', { className: 'source-links' }, [
-                createElement('h5', {}, ['TypeScript + React']),
-                createElement('a', { className: 'demo-link', 'data-type': 'local', href: 'https://todomvc.com/examples/typescript-react' }, ['Demo']),
-                ', ',
-                createElement('a', { href: 'https://github.com/tastejs/todomvc/tree/gh-pages/examples/typescript-react' }, ['Source'])
+                createElement('h5', {}, ['JavaScript']),
+                createElement('a', { href: 'https://github.com/mahdikheirkhah/mini-framework/blob/master/documentation.md', target: '_blank' }, ['Source'])
             ])
         ]),
         createElement('hr'),
         createElement('blockquote', { className: 'quote speech-bubble' }, [
-            createElement('p', {}, ['React is a JavaScript library for creating user interfaces. Its core principles are declarative code, efficiency, and flexibility. Simply specify what your component looks like and React will keep it up-to-date when the underlying data changes.']),
+            createElement('p', {}, ['This mini-framework helps build user interfaces with a virtual DOM, state management, and event-driven updates — all with minimal code.']),
             createElement('footer', {}, [
-                createElement('a', { href: 'http://facebook.github.io/react' }, ['React'])
+                createElement('a', { href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
+        target: '_blank' }, ['Learn JavaScript on MDN'])
             ])
         ]),
         createElement('hr'),
-        createElement('h4', {}, ['Official Resources']),
-        createElement('ul', {}, [
-            createElement('li', {}, [
-                createElement('a', { href: 'https://react.dev/learn' }, ['Quick Start'])
-            ]),
-            createElement('li', {}, [
-                createElement('a', { href: 'https://react.dev/reference/react' }, ['API Reference'])
-            ]),
-            createElement('li', {}, [
-                createElement('a', { href: 'https://petehuntsposts.quora.com/React-Under-the-Hood' }, ['Philosophy'])
-            ]),
-            createElement('li', {}, [
-                createElement('a', { href: 'https://react.dev/community' }, ['React Community'])
-            ])
-        ]),
+        // createElement('h4', {}, ['Official Resources']),
+        // createElement('ul', {}, [
+        //     createElement('li', {}, [
+        //         createElement('a', { href: 'https://react.dev/learn' }, ['Quick Start'])
+        //     ]),
+        //     createElement('li', {}, [
+        //         createElement('a', { href: 'https://react.dev/reference/react' }, ['API Reference'])
+        //     ]),
+        //     createElement('li', {}, [
+        //         createElement('a', { href: 'https://petehuntsposts.quora.com/React-Under-the-Hood' }, ['Philosophy'])
+        //     ]),
+        //     createElement('li', {}, [
+        //         createElement('a', { href: 'https://react.dev/community' }, ['React Community'])
+        //     ])
+        // ]),
         createElement('h4', {}, ['Community']),
         createElement('ul', {}, [
             createElement('li', {}, [
-                createElement('a', { href: 'https://stackoverflow.com/questions/tagged/reactjs' }, ['ReactJS on Stack Overflow'])
+                createElement('a', { href: 'https://github.com/mahdikheirkhah/mini-framework/graphs/contributors' }, ['JavaScript on Stack Overflow'])
             ])
         ]),
         createElement('footer', {}, [
             createElement('hr'),
             createElement('em', {}, [
                 'If you have other helpful links to share, or find any of the links above no longer work, please ',
-                createElement('a', { href: 'https://github.com/tastejs/todomvc/issues' }, ['let us know']),
+                createElement('a', { href: 'https://github.com/mahdikheirkhah/mini-framework/issues', target: '_blank' }, ['let us know']),
                 '.'
             ])
         ])

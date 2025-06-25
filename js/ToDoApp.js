@@ -1,4 +1,4 @@
-import { createElement, createApp, store } from '../framework/app.js';
+import { createElement, createApp, store, router } from '../framework/app.js';
 import { TodoList } from './components/TodoList.js';
 import { TodoInput } from './components/TodoInput.js';
 import { TodoFooter } from './components/TodoFooter.js';
@@ -9,6 +9,21 @@ store.setState({
     todos: [],
     filter: 'all' // can be 'all', 'active', or 'completed'
 });
+
+router.setDefaultHandler(() => {
+    store.setState({ filter: 'all' });
+});
+router.addRoute('/', () => {
+    store.setState({ filter: 'all' });
+});
+router.addRoute('/active', () => {
+    store.setState({ filter: 'active' });
+});
+router.addRoute('/completed', () => {
+    store.setState({ filter: 'completed' });
+});
+
+router.init();
 
 const DOMBody = document.getElementById('body');
 

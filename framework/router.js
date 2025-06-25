@@ -9,12 +9,17 @@ class Router {
             console.warn('No default route handler set');
         };
 
-        // Handle browser back/forward buttons
-        window.addEventListener('popstate', () => {
-            this.handleRoute(window.location.pathname);
+        // Listen for hash changes
+        window.addEventListener('hashchange', () => {
+            this.handleRoute(this.getCurrentPath());
         });
     }
-
+        
+    getCurrentPath() {
+        // Remove the leading '#' from the hash
+        const hash = window.location.hash || '#/';
+        return hash.slice(1); // removes '#'
+    }
     /**
      * Add a route
      * @param {string} path - URL path
@@ -43,8 +48,8 @@ class Router {
      * @param {string} path - URL path
      */
     navigate(path) {
-        window.history.pushState({}, '', path); 
-        this.handleRoute(path);
+        // This triggers the hashchange event
+        window.location.hash = path.startsWith('/') ? `#${path}` : `#/${path}`;
     }
 
     /**
@@ -56,26 +61,21 @@ class Router {
         if (handler) {
             this.currentRoute = path;
             handler();
-        } else if (path === '/') {
-            // Special handling for root path
-            this.currentRoute = '/';
-            this.defaultHandler();
         } else {
-            console.warn(`No handler found for path: ${path}`);
-            // Fallback to default handler
+            this.currentRoute = '/';
             this.defaultHandler();
         }
     }
+
 
     /**
      * Initialize router with current path
      */
     init() {
-        // Add default root handler if none exists
         if (!this.routes.has('/')) {
             this.addRoute('/', this.defaultHandler);
         }
-        this.handleRoute(window.location.pathname);
+        this.handleRoute(this.getCurrentPath());
     }
 }
 

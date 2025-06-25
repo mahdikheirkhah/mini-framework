@@ -19,7 +19,7 @@ export function TodoFooter() {
     }
 
     return createElement('footer', { className: 'footer' }, [
-        createElement('span', { className: 'todo-count' }, [
+        createElement('span', { className: 'todo-count', 'data-testid': 'footer-navigation' }, [
             createElement('strong', {}, [String(activeTodos.length)]),
             ` item${activeTodos.length === 1 ? '' : 's'} left`
         ]),
@@ -61,7 +61,8 @@ export function TodoFooter() {
         completedTodos.length > 0 ?
             createElement('button', {
                 className: 'clear-completed',
-                onclick: clearCompleted
+                onclick: clearCompleted,
+                'data-testid': 'footer-clear-completed'
             }, ['Clear completed'])
             : null
     ]);

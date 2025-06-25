@@ -46,7 +46,7 @@ const app = createApp(App, document.getElementById('root'));
 
 ### 1. Creating Elements
 
-The framework uses a virtual DOM system. Elements are created using the `createElement` function:
+The framework uses a virtual DOM system. Elements are created using the `createElement` function. You can also add event handlers directly in the atrributes list:
 
 ```javascript
 createElement(tag, attributes, children)
@@ -144,17 +144,14 @@ function Counter() {
 
 2. **Centralized State**: A centralized store makes it easier to manage application state and ensures all components have access to the same data. State changes trigger re-renders automatically.
 
-3. **Event System**: The custom event system provides a way to handle events and component communication without tight coupling. It's more flexible than direct event listeners.
-
-4. **Routing**: The router synchronizes the URL with the application state, enabling bookmarkable pages and browser history support.
+3. **Routing**: The router synchronizes the URL with the application state, enabling bookmarkable pages and browser history support.
 
 ## Best Practices
 
 1. Keep components small and focused on a single responsibility
 2. Use the state management system for shared state only
 3. Prefer composition over inheritance when building components
-4. Use events for loose coupling between components
-5. Always clean up event listeners and subscriptions when they're no longer needed
+4. Always clean up event listeners and subscriptions when they're no longer needed
 
 ## Example TodoMVC Implementation
 

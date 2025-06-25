@@ -25,7 +25,7 @@ router.addRoute('/completed', () => {
 
 router.init();
 
-const DOMBody = document.getElementById('body');
+const DOMBody = document.querySelector('body');
 
 // Create and mount sidebar content
 function Sidebar() {
@@ -46,21 +46,6 @@ function Sidebar() {
             ])
         ]),
         createElement('hr'),
-        // createElement('h4', {}, ['Official Resources']),
-        // createElement('ul', {}, [
-        //     createElement('li', {}, [
-        //         createElement('a', { href: 'https://react.dev/learn' }, ['Quick Start'])
-        //     ]),
-        //     createElement('li', {}, [
-        //         createElement('a', { href: 'https://react.dev/reference/react' }, ['API Reference'])
-        //     ]),
-        //     createElement('li', {}, [
-        //         createElement('a', { href: 'https://petehuntsposts.quora.com/React-Under-the-Hood' }, ['Philosophy'])
-        //     ]),
-        //     createElement('li', {}, [
-        //         createElement('a', { href: 'https://react.dev/community' }, ['React Community'])
-        //     ])
-        // ]),
         createElement('h4', {}, ['Contributors']),
             createElement('li', {}, [
                 createElement('a', { 
@@ -105,14 +90,6 @@ function Sidebar() {
 
 function Footer() {
 
-// return the following DOM structure:
-//    
-// <footer class="info">
-//     <p>Double-click to edit a todo</p>
-//     <p>Created using custom framework</p>
-//     <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
-// </footer>
-
  return createElement('footer', { className: 'info' }, [
         createElement('p', {}, ['Double-click to edit a todo']),
         createElement('p', {}, ['Created using custom framework']),
@@ -121,30 +98,25 @@ function Footer() {
 ])
 }
 
+
 // Main App component
 function App() {
     const state = store.getState();
-    return createElement('div', {}, [
-            createElement('header', { className: 'header' }, [
+    return [createElement('header', { className: 'header' }, [
                 createElement('h1', {}, ['todos']),
-                TodoInput()
+                createElement('div', { className: 'input-container'}, [TodoInput(), 
+                    createElement('label', { className: 'visually-hidden', for: 'todo-input'}, ['New Todo Input'])]),
             ]),
             TodoList(),
             state.todos.length > 0 ? TodoFooter() : null
-        ]);
+        ]
 }
 
-// Create and mount Sidebar to the <body>
-mount(Sidebar(), DOMBody);
-
-// Create app container <section id="app"> and mount it to the <body>
-mount(createElement('section', { className: 'todoapp', id: 'app' }, []), DOMBody);
-
+mount(Sidebar(), DOMBody)
+const appRoot = mount(createElement('section', { className: 'todoapp', id: 'root' }, []), DOMBody)
 // Create and mount the app to the container
-const app = createApp(App, document.getElementById('app'));
+const app = createApp(App, appRoot);
 // Export app instance for potential external use
 export { app };
 
-// Create and mount Footer to the <body>
-mount(Footer(), DOMBody);
-
+mount(Footer(), DOMBody)

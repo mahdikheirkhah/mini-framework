@@ -1,5 +1,5 @@
 // Import and re-export all framework components
-import { createElement, mount, patch } from './dom.js';
+import { createElement, mount } from './dom.js';
 import { Store, store } from './state.js';
 import { Router, router } from './router.js';
 
@@ -15,12 +15,14 @@ class AppRenderer {
         this.unsubscribe = null;
     }
     
+
     render = () => {
         const newVnode = this.rootComponent();
-        if (this.vnode === null) {
-            mount(newVnode, this.container);
+        this.container.innerHTML = '';
+        if (Array.isArray(newVnode)) {
+            newVnode.forEach(vnode => mount(vnode, this.container));
         } else {
-            patch(this.vnode, newVnode, this.container);
+            mount(newVnode, this.container);
         }
         this.vnode = newVnode;
     }

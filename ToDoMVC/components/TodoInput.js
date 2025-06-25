@@ -29,6 +29,8 @@ export function TodoInput() {
         className: 'new-todo',
         placeholder: 'What needs to be done?',
         onkeydown: handleKeyDown,
-        autofocus: true
+        id: 'todo-input',
+        autofocus: true,
+        'data-testid': 'text-input'
     });
 }

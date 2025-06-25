@@ -53,21 +53,25 @@ export function TodoItem(todo) {
     }
 
     return createElement('li', {
-        className: `${todo.completed ? 'completed' : ''}`
+        className: `${todo.completed ? 'completed' : ''}`,
+        'data-testid': 'todo-item'
     }, [
         createElement('div', { className: 'view' }, [
             createElement('input', {
                 className: 'toggle',
                 type: 'checkbox',
                 checked: todo.completed,
-                onclick: toggleTodo
+                onclick: toggleTodo,
+                'data-testid': 'todo-item-toggle'
             }),
             createElement('label', {
-                ondblclick: startEditing
+                ondblclick: startEditing,
+                'data-testid': 'todo-item-label'
             }, [todo.text]),
             createElement('button', {
                 className: 'destroy',
-                onclick: removeTodo
+                onclick: removeTodo,
+                'data-testid': 'todo-item-button'
             })
         ]),
         createElement('input', {

@@ -15,7 +15,9 @@ export function TodoList() {
 
     // Toggle all todos
     function handleToggleAll(e) {
-        const completed = e.target.checked;
+        const toggleAllSwitch = document.getElementById('toggle-all')
+        const completed = !toggleAllSwitch.checked;
+
         store.setState({
             todos: todos.map(todo => ({
                 ...todo,
@@ -25,21 +27,23 @@ export function TodoList() {
     }
 
     // Only show toggle-all if there are todos
-    const toggleAll = todos.length > 0 ? [
-        createElement('input', {
-            id: 'toggle-all',
-            className: 'toggle-all',
-            type: 'checkbox',
-            checked: todos.length > 0 && todos.every(t => t.completed),
-            onclick: handleToggleAll
-        }),
-        createElement('label', {
-            htmlFor: 'toggle-all'
-        }, ['Mark all as complete'])
-    ] : [];
+    const toggleAll = todos.length > 0 ? 
+        createElement('div', { className: 'toggle-all-container', onclick: handleToggleAll }, [
+            createElement('input', {
+                id: 'toggle-all',
+                className: 'toggle-all',
+                type: 'checkbox',
+                checked: todos.length > 0 && todos.every(t => t.completed),
+                'data-testid': 'toggle-all'
+            }),
+            createElement('label', {
+                htmlFor: 'toggle-all'
+            }, ['Mark all as complete'])
+        ])
+     : [];
 
-    return createElement('section', { className: 'main' }, [
-        ...toggleAll,
+    return createElement('main', { className: 'main' }, [
+        toggleAll,
         createElement('ul', { className: 'todo-list' },
             filteredTodos.map(todo => TodoItem(todo))
         )

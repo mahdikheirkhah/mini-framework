@@ -71,7 +71,6 @@ function applyAttributes(element, attrs) {
 function createDomElement(vnode) {
     // Handle null, undefined, or invalid vnodes
     if (!vnode || typeof vnode !== 'object') {
-        console.warn('Invalid vnode received:', vnode);
         return document.createTextNode('');
     }
 
@@ -89,18 +88,16 @@ function createDomElement(vnode) {
         console.error('Invalid vnode tag type:', typeof vnode.tag);
         return document.createTextNode('');
     }
-    
+
     try {
         const element = document.createElement(vnode.tag);
         applyAttributes(element, vnode.attrs || {});
-        
-        const children = Array.isArray(vnode.children) ? vnode.children : [];
+
+        const children = Array.isArray(vnode.children) ? vnode.children.filter(child => child !== null && child !== undefined) : [];
         for (const child of children) {
-            if (child !== null && child !== undefined) {
-                mount(child, element);
-            }
+            mount(child, element);
         }
-        
+
         return element;
     } catch (error) {
         console.error('Error creating DOM element:', error);
@@ -110,74 +107,22 @@ function createDomElement(vnode) {
 
 /**
  * Mounts a virtual node to a parent DOM element
+ * Creates DOM elements recursively from virtual DOM tree
  * @param {Object} vnode - Virtual DOM node
  * @param {HTMLElement} parentDomElement - Parent DOM element
+ * @returns {HTMLElement} Created DOM element
  */
 function mount(vnode, parentDomElement) {
     const domElement = createDomElement(vnode);
+    if (!parentDomElement) {
+        console.error('Mount failed: parentDomElement is null/undefined');
+        return domElement;
+    }
     parentDomElement.appendChild(domElement);
     return domElement;
 }
 
-/**
- * Updates the DOM by comparing old and new virtual nodes
- * @param {Object} oldVnode - Old virtual DOM node
- * @param {Object} newVnode - New virtual DOM node
- * @param {HTMLElement} parentDomElement - Parent DOM element
- */
-function patch(oldVnode, newVnode, parentDomElement) {
-    if (!parentDomElement || !(parentDomElement instanceof Element)) {
-        console.error('Invalid parent element:', parentDomElement);
-        return;
-    }
 
-    try {
-        if (!oldVnode) {
-            // New node, just mount it
-            if (newVnode) {
-                mount(newVnode, parentDomElement);
-            }
-        } else if (!newVnode) {
-            // Node was removed, remove from DOM
-            parentDomElement.textContent = '';
-        } else if (oldVnode.tag !== newVnode.tag) {
-            // Different tags, replace completely
-            const domElement = createDomElement(newVnode);
-            if (parentDomElement.firstChild) {
-                parentDomElement.replaceChild(domElement, parentDomElement.firstChild);
-            } else {
-                parentDomElement.appendChild(domElement);
-            }
-        } else {
-            // Same tag, update attributes and children
-            const domElement = parentDomElement.firstChild;
-            if (!domElement) {
-                if (newVnode) {
-                    mount(newVnode, parentDomElement);
-                }
-                return;
-            }
-
-            if (domElement instanceof Element) {
-                applyAttributes(domElement, newVnode.attrs || {});
-            }
-            
-            // Ensure children arrays exist
-            const oldChildren = Array.isArray(oldVnode.children) ? oldVnode.children : [];
-            const newChildren = Array.isArray(newVnode.children) ? newVnode.children : [];
-            
-            // For simplicity and reliability with dynamic lists, rebuild children
-            domElement.innerHTML = '';
-            for (const child of newChildren) {
-                if (child !== null && child !== undefined) {
-                    mount(child, domElement);
-                }
-            }
-        }
-    } catch (error) {
-        console.error('Error during patch operation:', error);
-    }
-}
 
 // Export the functions
-export { createElement, mount, patch };
+export { createElement, mount };

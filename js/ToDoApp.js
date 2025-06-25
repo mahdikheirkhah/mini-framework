@@ -46,12 +46,37 @@ function Sidebar() {
         //         createElement('a', { href: 'https://react.dev/community' }, ['React Community'])
         //     ])
         // ]),
-        createElement('h4', {}, ['Community']),
-        createElement('ul', {}, [
+        createElement('h4', {}, ['Contributors']),
             createElement('li', {}, [
-                createElement('a', { href: 'https://github.com/mahdikheirkhah/mini-framework/graphs/contributors' }, ['JavaScript on Stack Overflow'])
-            ])
-        ]),
+                createElement('a', { 
+                    href: 'https://github.com/olegamobile', 
+                    target: '_blank' 
+                }, ['Oleg Balandin'])
+            ]),
+        createElement('li', {}, [
+        createElement('a', {
+            href: 'https://github.com/mahdikheirkhah',
+            target: '_blank'
+        }, ['Mohammad Mahdi Kheirkhah'])
+    ]),
+    createElement('li', {}, [
+        createElement('a', {
+            href: 'https://github.com/Inkasaa',
+            target: '_blank'
+        }, ['Inkasaa'])
+    ]),
+    createElement('li', {}, [
+        createElement('a', {
+            href: 'https://github.com/mavka1207',
+            target: '_blank'
+        }, ['Kateryna Ovsiienko'])
+    ]),
+    createElement('li', {}, [
+        createElement('a', {
+            href: 'https://github.com/fatemekh78',
+            target: '_blank'
+        }, ['fatemekh'])
+    ]),
         createElement('footer', {}, [
             createElement('hr'),
             createElement('em', {}, [
